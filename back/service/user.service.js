@@ -1,40 +1,39 @@
 import dbConnect from "../mongo.js";
-import { User, validate } from "../../models/User.js";
+import { User, validate } from "../models/User.js";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const logIn = async (method, body) => {
+export const logIn = async (body) => {
   await dbConnect();
-  if (method === "POST") {
-    try {
-      const { error } = validateData(body);
-      if (error) {
-        throw new Error({ message: error.message }); // Lanza el error con el mensaje
-      }
 
-      const user = await User.findOne({ email: body.email });
-      if (!user) {
-        throw new Error({ message: "Invalid Email or Password" }); // Lanza el error con el mensaje
-      }
-
-      const validPassword = await bcrypt.compare(body.password, user.password);
-      if (!validPassword) {
-        throw new Error({ message: "Invalid Email or Password" }); // Lanza el error con el mensaje
-      }
-
-      const token = user.generateAuthToken();
-      const userCreated = {
-        data: token,
-        id: user._id,
-        name: `${user.firstName} ${user.lastName}`,
-        message: "Logged in successfully",
-      };
-      return userCreated;
-    } catch (error) {
-      throw new Error({ message: error.message }); // Lanza el mensaje de error
+  try {
+    const { error } = validateData(body);
+    if (error) {
+      throw new Error({ message: error.message }); // Lanza el error con el mensaje
     }
+
+    const user = await User.findOne({ email: body.email });
+    if (!user) {
+      throw new Error({ message: "Invalid Email or Password" }); // Lanza el error con el mensaje
+    }
+
+    const validPassword = await bcrypt.compare(body.password, user.password);
+    if (!validPassword) {
+      throw new Error({ message: "Invalid Email or Password" }); // Lanza el error con el mensaje
+    }
+
+    const token = user.generateAuthToken();
+    const userCreated = {
+      data: token,
+      id: user._id,
+      name: `${user.firstName} ${user.lastName}`,
+      message: "Logged in successfully",
+    };
+    return userCreated;
+  } catch (error) {
+    throw new Error({ message: error.message }); // Lanza el mensaje de error
   }
 };
 
@@ -46,7 +45,7 @@ const validateData = (data) => {
   return schema.validate(data);
 };
 
-export const createUser = async (method, body) => {
+export const createUser = async (body) => {
   await dbConnect();
 
   try {
