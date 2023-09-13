@@ -3,13 +3,15 @@ import {
     getCompanyById, 
     getCompaniesByUserId, 
     modifyCompany,
-    deleteCompany
-} from "../service/company.service";
+    deleteCompany,
+    getAllCompany
+} from "../service/company.service.js";
 
 
 export const getCompaniesByUserIdCtrl = async (req, res, next) => {
     try {
-        const { userId } = req.header;
+        
+        const { userId } = req.query;
 
         const result = await getCompaniesByUserId(userId);
 
@@ -60,6 +62,16 @@ export const deleteCompanyCtrl = async (req, res, next) => {
         const { _id: company } = req.header;
 
         const result = await deleteCompany(company);
+        
+        return res.status(200).send(result || "No users found");
+    } catch (error) {
+      next(error);
+    }
+};
+
+export const getAllCompanyCtrl = async (req, res, next) => {
+    try {
+        const result = await getAllCompany();
         
         return res.status(200).send(result || "No users found");
     } catch (error) {

@@ -29,6 +29,7 @@ const validateCompany = ( data ) => {
         phone: Joi.number().required().label("Phone"),
         userId: Joi.string().required().label("User ID"),
         webpageUrl: Joi.string().optional().label("Webpage URL"),
+        deleted: Joi.boolean().required().label("Deleted"),
     });
     return schema.validate(data);
 };

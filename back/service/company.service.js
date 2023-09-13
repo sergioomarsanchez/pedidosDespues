@@ -12,21 +12,37 @@ dotenv.config();
 
 export const createCompany = async ( body ) => {
     await dbConnect();
-  
     try {
         const { error } = validateCompany(body);
         if (error) {
-                throw new Error({ message: error.message });
+            throw new Error({ message: error.message });
         }
         const company = await Company.findOne({ name: body.name });
-
+        
         if (company) {
             throw new Error({ message: "Please try another name!" });
         }
+        
+        const data = await new Company({ ...body }).save();
 
-        await new Company({ ...body }).save();
+        return { message: "Company Created Successfully", data };
+    } catch (error) {
+        throw new Error({ message: error.message });
+    }
+};
+export const getAllCompany = async () => {
+    await dbConnect();
 
-        return { message: "Company Created Successfully" };
+    try {
+
+        const company = await Company.find({});
+        
+        if (!company) {
+            throw new Error({ message: "Please try another name!" });
+        }
+
+        return { message: "Company Created Successfully", company };
+        
     } catch (error) {
         throw new Error({ message: error.message });
     }
@@ -36,8 +52,8 @@ export const getCompaniesByUserId = async ( userId ) => {
     await dbConnect();
   
     try {
-      
-        const companies = await Company.findAll({ userId: userId });
+        
+        const companies = await Company.find({ userId: userId });
 
         if (!companies) {
             throw new Error({ message: "This user doesn't have any company" });
