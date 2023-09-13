@@ -4,7 +4,7 @@ import Joi from "joi";
 const CompanySchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
-        photoUrl: { type: String, required: true },
+        photoUrl: { type: String, required: false },
         description: { type: String, required: false },
         address: { type: String, required: true },
         rating: { type: Number, required: false },
@@ -22,7 +22,7 @@ const Company = mongoose.models.Company || mongoose.model("Company", CompanySche
 const validateCompany = ( data ) => {
     const schema = Joi.object({
         name: Joi.string().required().label("Name"),
-        photoUrl: Joi.string().required().label("Photo URL"),
+        photoUrl: Joi.string().optional().label("Photo URL"),
         description: Joi.string().optional().label("Description"),
         address: Joi.string().required().label("Address"),
         rating: Joi.number().optional().label("Rating"),
