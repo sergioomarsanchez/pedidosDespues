@@ -4,6 +4,12 @@ import { validateCompany, Company } from "../models/Company.js";
 
 dotenv.config();
 
+// ============ TO DO IDIOTA =============
+// ===== Add Destroy company service =====
+// ===== Add Destroy company service =====
+// ===== Add Destroy company service =====
+// ===== Add Destroy company service =====
+
 export const createCompany = async ( body ) => {
     await dbConnect();
   
@@ -60,11 +66,11 @@ export const getCompanyById = async ( companyId ) => {
     }
 };
 
-export const modifyCompany = async ( companyId, body ) => {
+export const modifyCompany = async ( body ) => {
     await dbConnect();
   
     try {
-        const company = await Company.findOne({ _id: companyId });
+        const company = await Company.findOne({ _id: body._id });
       
         if (!company) {
             throw new Error({ message: "Company not found" });
@@ -76,6 +82,27 @@ export const modifyCompany = async ( companyId, body ) => {
         };
 
         return modifiedCompany;
+    } catch (error) {
+        throw new Error({ message: error.message });
+    }
+};
+
+export const deleteCompany = async ( companyId ) => {
+    await dbConnect();
+  
+    try {
+        const company = await Company.findOne({ _id: companyId });
+      
+        if (!company) {
+            throw new Error({ message: "Company not found" });
+        }
+
+        let deletedCompany = {
+            ...company,
+            deleted: true,
+        };
+
+        return deletedCompany;
     } catch (error) {
         throw new Error({ message: error.message });
     }

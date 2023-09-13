@@ -1,46 +1,67 @@
+import { 
+    createCompany, 
+    getCompanyById, 
+    getCompaniesByUserId, 
+    modifyCompany,
+    deleteCompany
+} from "../service/company.service";
 
 
-
-export const getAllCompanies = async (req, res, next) => {
+export const getCompaniesByUserIdCtrl = async (req, res, next) => {
     try {
-    //   const result = await getUsers();
-    //   return res.status(200).send(result || "No users found");
+        const { userId } = req.header;
+
+        const result = await getCompaniesByUserId(userId);
+
+        return res.status(200).send( result || "No users found" );
+
     } catch (error) {
       next(error);
     }
 };
 
-export const getCompanyById = async (req, res, next) => {
+export const getCompanyByIdCtrl = async (req, res, next) => {
     try {
-    //   const result = await getUsers();
-    //   return res.status(200).send(result || "No users found");
+        const { _id: company } = req.header;
+
+        const result = await getCompanyById(company);
+
+        return res.status(200).send(result || "No users found");
     } catch (error) {
       next(error);
     }
 };
 
-export const createCompany = async (req, res, next) => {
+export const createCompanyCtrl = async (req, res, next) => {
     try {
-    //   const result = await getUsers();
-    //   return res.status(200).send(result || "No users found");
+        const company = req.body;
+
+        const result = await createCompany(company);
+
+        return res.status(200).send(result || "No users found");
+    } catch (error) {
+        next(error); 
+    }
+};
+
+export const modifyCompanyCtrl = async (req, res, next) => {
+    try {
+        const company = req.body;
+
+        const result = await modifyCompany(company);
+        return res.status(200).send(result || "No users found");
     } catch (error) {
       next(error);
     }
 };
 
-export const modifyCompany = async (req, res, next) => {
+export const deleteCompanyCtrl = async (req, res, next) => {
     try {
-    //   const result = await getUsers();
-    //   return res.status(200).send(result || "No users found");
-    } catch (error) {
-      next(error);
-    }
-};
+        const { _id: company } = req.header;
 
-export const deleteCompany = async (req, res, next) => {
-    try {
-    //   const result = await getUsers();
-    //   return res.status(200).send(result || "No users found");
+        const result = await deleteCompany(company);
+        
+        return res.status(200).send(result || "No users found");
     } catch (error) {
       next(error);
     }
