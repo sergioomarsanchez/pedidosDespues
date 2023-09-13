@@ -3,12 +3,14 @@ import { Router } from "express";
 
 //Se importan todas las rutas
 import userRouter from "./user.router.js";
+import companyRouter from './company.router.js';
 
 
 const router = Router();
 
 //Se definen las rutas base
 router.use("/user", userRouter);
+router.use("/company", companyRouter)
 
 
 
