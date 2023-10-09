@@ -25,13 +25,14 @@ export const logIn = async (body) => {
     }
 
     const token = user.generateAuthToken();
-    const userCreated = {
+    const loggedUser = {
       data: token,
       id: user._id,
       name: `${user.firstName} ${user.lastName}`,
       message: "Logged in successfully",
+      role: user.role,
     };
-    return userCreated;
+    return loggedUser;
   } catch (error) {
     throw new Error({ message: error.message }); // Lanza el mensaje de error
   }
