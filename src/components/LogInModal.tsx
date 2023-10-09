@@ -20,12 +20,14 @@ function LogInModal({
   }
   function closeModal() {
     setIsOpen(false);
+    reset()
   }
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<logInInfo>({
     resolver: zodResolver(logInInfoSchemaValidator),
   });
@@ -91,41 +93,36 @@ function LogInModal({
                               Email:
                             </label>
                             <input
-                              className="mb-2 md:mb-5 px-2 border-2 text-sm rounded-lg w-full h-8 md:h-9 placeholder:p-2 bg-dark-background  selection:bg-neutrales-40 border-[var(--sponsor-color)]"
+                              className="mb-2 md:mb-5 px-2 border-2 text-sm rounded-lg w-full h-8 md:h-9 placeholder:p-2 selection:bg-gray-400 text-black"
                               placeholder="Correo Electrónico"
                               {...register("email", {
                                 required: true,
                               })}
                             />
-                            {(errors.email?.type === "required" && (
-                              <p className="m-2 text-secundarios-00 font-semibold">
-                                Ingresa tu correo
+                            {errors.email && (
+                               <p className="text-red-500 text-sm font-semibold">
+                                * {errors.email.message}
                               </p>
-                            )) ||
-                              (errors.email?.type === "pattern" && (
-                                <p className="m-2 text-secundarios-00 font-semibold">
-                                  Ingresa un correo valido
-                                </p>
-                              ))}
+                            )}
                             <label className="mb-1 text-xs font-light mt-5">
                               Password:
                             </label>
                             <input
-                              className="mb-2 md:mb-5 px-2 border-2 text-sm rounded-lg w-full h-8 md:h-9 placeholder:p-2 bg-dark-background  selection:bg-neutrales-40 border-[var(--sponsor-color)]"
+                              className="mb-2 md:mb-5 px-2 border-2 text-sm rounded-lg w-full h-8 md:h-9 placeholder:p-2 selection:bg-gray-400 text-black"
                               placeholder="Password"
                               {...register("password", {
                                 required: true,
                               })}
                             />
-                            {(errors.password?.type === "required" && (
-                              <p className="m-2 text-secundarios-00 font-semibold">
-                                Ingresa tu clave
+                            {errors.password && (
+                             <p className="text-red-500 text-sm font-semibold">
+                                * {errors.password.message}
                               </p>
-                            ))}
+                            )}
                           </div>
                           <button
                             type="submit"
-                            className="py-2 px-4 rounded-lg text-white bg-[var(--sponsor-color)] text-xs lg:text-sm "
+                            className="py-2 px-4 rounded-lg text-white bg-teal-700 text-xs lg:text-sm "
                           >
                             {/*Ir a confirmar correo electrónico*/}
                             Ingresar
