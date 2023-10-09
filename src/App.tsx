@@ -1,15 +1,18 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
+import Home from "./components/Home";
+import About from "./components/About";
+import Users from "./components/Users";
 
 function App() {
   return (
     <Router>
-      <div className="container m-auto text-3xl font-bold underline text-red-500">
+      <div className="container m-auto">
         <NavBar />
         <Routes>
-          <Route path="/" element={<h1>Home</h1>} />
-          <Route path="/about" element={<h1>About</h1>} />
-          <Route path="/users" element={<h1>Users</h1>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/users" element={<Users />} />
         </Routes>
       </div>
       ;
